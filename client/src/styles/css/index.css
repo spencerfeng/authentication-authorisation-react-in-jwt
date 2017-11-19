@@ -5806,5 +5806,7 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
+body {
+  padding-top: 100px; }
 
 /*# sourceMappingURL=index.css.map */
