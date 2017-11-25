@@ -4,10 +4,19 @@
  * Module dependencies.
  */
 
+require('dotenv').config();
+
 var app = require('../app');
 var debug = require('debug')('authentication-authorisation-react-in-jwt:server');
 var http = require('http');
+var mongoose =  require('mongoose');
 
+// connect to the database
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
+mongoose.Promise = global.Promise;
+mongoose.connection.on('error', (err) => {
+  console.error('mongoodb error: ' + err.message);
+});
 
 /**
  * Get port from environment and store in Express.
