@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+require('dotenv').config();
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -26,6 +28,80 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// create the 'local-signup' named strategy
+passport.use('local-signup', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true,
+    session: false
+},
+function(req, username, password, done) {
+
+    User.findOne({
+        'email': username
+    }, function(err, user) {
+        if (err) {
+            return done(err);
+        }
+
+        if (user) {
+            return done(null, false);
+        }
+
+        let newUser = new User();
+
+        newUser.email = username;
+        newUser.password = newUser.generateHash(password);
+        newUser.firstName = req.body.firstName;
+        newUser.lastName = req.body.lastName;
+
+        newUser.save(function(err) {
+            if (err) {
+                throw err;
+            }
+
+            // create a jwt
+            const payload = {
+                sub: newUser._id
+            }
+            const token = jwt.sign(payload, process.env.JWT_KEY);
+
+            const data = {
+                _id: newUser._id,
+                email: newUser.email,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName
+            };
+
+            return done(null, token, data);
+        });
+
+    });
+}));
+
+// create the route to handle user signup
+app.post('/signup', function(req, res, next) {
+    
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    passport.authenticate('local-signup', function(err, token, userData) {
+
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                message: err.message
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: 'You have successfully signed up and logged in',
+            token: token,
+            user: userData
+        });
+    })(req, res, next);
+});
 
 app.use('/', index);
 app.use('/users', users);
