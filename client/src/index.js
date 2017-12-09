@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerReducer, push } from 'react-router-redux';
 import registerServiceWorker from './registerServiceWorker';
+import thunkMiddleware from 'redux-thunk';
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory();
@@ -15,7 +16,10 @@ const history = createHistory();
 // Create the store
 const store = createStore(combineReducers({
     cUser: reducers.cUser
-}));
+}),
+applyMiddleware(
+    thunkMiddleware
+));
 
 function run() {
     ReactDOM.render(<Provider store={store}>
