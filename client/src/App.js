@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import { Route, Switch } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
-import SignupPage from './components/SignupPage';
+import SignupPage from './components/SignupPageContainer';
 
 class App extends Component {
     render() {
