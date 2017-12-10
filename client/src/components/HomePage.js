@@ -9,9 +9,9 @@ class HomePage extends Component {
             <div className="row">
                 <div className="col col-md-3"></div>
                 <div className="col col-md-6">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">Public News</div>
-                        <div class="panel-body">
+                    <div className="panel panel-info">
+                        <div className="panel-heading">Public News</div>
+                        <div className="panel-body">
                             <ul>
                                 <li>Public news 1</li>
                                 <li>Public news 2</li>
