@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './components/Navbar';
 import { Route, Switch } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import LoginPage from './components/LoginPage';
+import LoginPage from './components/LoginPageContainer';
 import SignupPage from './components/SignupPageContainer';
 
 class App extends Component {
