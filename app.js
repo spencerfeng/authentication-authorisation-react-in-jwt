@@ -81,6 +81,49 @@ function(req, username, password, done) {
     });
 }));
 
+// create the 'local-signin' named strategy
+passport.use('local-signin', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true,
+    session: false
+},
+function(req, username, password, done) {
+    User.findOne({
+        'email': username
+    }, function(err, user) {
+        if (err) {
+            return done(err);
+        }
+
+        // if no user is found, return 
+        if (!user) {
+            return done(null, false);
+        }
+
+        // if the user is found, but the password is wrong, return
+        if (! user.validPassword(password)) {
+            return done(null, false);
+        }
+
+        // create a jwt
+        const payload = {
+            sub: user._id
+        }
+        const token = jwt.sign(payload, process.env.JWT_KEY);
+
+        const data = {
+            _id: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
+        };
+
+        return done(null, token, data);
+
+    });
+}));
+
 // create the route to handle user signup
 app.post('/signup', function(req, res, next) {
     
@@ -102,6 +145,31 @@ app.post('/signup', function(req, res, next) {
             user: userData
         });
     })(req, res, next);
+});
+
+// create the route to handle user signin
+app.post('/signin', function(req, res, next) {
+    
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    passport.authenticate('local-signin', function(err, token, userData) {
+
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                message: err.message
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: 'You have succesfully signed in',
+            token: token,
+            user: userData
+        });
+
+    })(req, res, next);
+
 });
 
 app.use('/', index);
