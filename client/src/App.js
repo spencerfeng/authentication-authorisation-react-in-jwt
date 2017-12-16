@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './components/Navbar';
+import Navbar from './components/NavbarContainer';
 import { Route, Switch } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPageContainer';
