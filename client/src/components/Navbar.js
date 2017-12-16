@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { IsEmpty } from '../helpers';
 
 class Navbar extends Component {
 
@@ -22,16 +23,22 @@ class Navbar extends Component {
                             <li className="active"><a href="/">Home</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="/signup">Signup</a></li>
-                            <li className="dropdown">
-                                <a className="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Hello, John Doe <span className="caret"></span>
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a href="#">Logout</a></li>
-                                </ul>
-                            </li>
+                            {IsEmpty(this.props.cUser) && 
+                                <li><a href="/login">Login</a></li>
+                            }
+                            {IsEmpty(this.props.cUser) &&
+                                <li><a href="/signup">Signup</a></li>
+                            }
+                            {!IsEmpty(this.props.cUser) &&
+                                <li className="dropdown">
+                                    <a className="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Hello, {this.props.cUser.firstName} {this.props.cUser.lastName} <span className="caret"></span>
+                                    </a>
+                                    <ul className="dropdown-menu">
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
