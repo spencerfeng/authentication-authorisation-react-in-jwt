@@ -65,7 +65,7 @@ export const userLogin = (user, history) => {
                 localStorage.setItem('token', data.token);
 
                 // Update the store state
-                dispatch(setAuthenticatedUser(data.token));
+                dispatch(setAuthenticatedUser(data.user));
 
                 // Redirect to user logged-in landing page
                 history.push('/');
