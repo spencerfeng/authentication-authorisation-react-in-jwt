@@ -78,3 +78,37 @@ export const userLogin = (user, history) => {
 }
 
 export const setAuthenticatedUser = (user) => ({ type: 'SET_USER', data: user });
+
+export const authenticateUser = (token) => {
+
+    return dispatch => {
+        fetch('http://localhost:3000/authenticate', {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"  
+            },
+            body: `token=${token}`
+        })
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return Promise.resolve(response);
+            } else {
+                return Promise.reject(new Error(response.statusText));
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if (data.success === true) {
+                // Update the store state
+                dispatch(setAuthenticatedUser(data.user));
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+};
