@@ -172,6 +172,57 @@ app.post('/signin', function(req, res, next) {
 
 });
 
+// create the route to handle user authentication via JWT
+app.post('/authenticate', function(req, res, nex) {
+    
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    const token = req.body.token;
+
+    jwt.verify(token, process.env.JWT_KEY, function(err, payload) {
+
+        if (err) {
+            return res.status(403).json({
+                success: false,
+                message: err.message
+            });
+        }
+
+        const userId = payload.sub;
+        
+        User.findOne({
+            '_id': userId
+        }, function(err, user) {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    message: err.message
+                });
+            }
+    
+            if (user) {
+                return res.json({
+                    success: true,
+                    message: 'The user was found',
+                    user: {
+                        _id: user._id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email
+                    }
+                });
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    message: 'The user could not be found'
+                });
+            }
+        });
+
+    });
+
+});
+
 app.use('/', index);
 app.use('/users', users);
 
