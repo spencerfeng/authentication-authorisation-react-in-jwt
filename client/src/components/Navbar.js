@@ -15,6 +15,9 @@ class Navbar extends Component {
 
         // remove the token in localStorage
         localStorage.removeItem('token');
+
+        // redirect to home page
+        this.props.history.push('/');
     }
 
     render() {
