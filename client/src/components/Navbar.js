@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import { IsEmpty } from '../helpers';
 
 class Navbar extends Component {
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout(e) {
+        e.preventDefault();
+
+        // set store state cUser to be an empty object
+        this.props.removeLoggedInUser();
+
+        // remove the token in localStorage
+        localStorage.removeItem('token');
+    }
 
     render() {
 
@@ -35,7 +49,7 @@ class Navbar extends Component {
                                         Hello, {this.props.cUser.firstName} {this.props.cUser.lastName} <span className="caret"></span>
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <li><a href="#">Logout</a></li>
+                                        <li><a href="#" onClick={this.logout}>Logout</a></li>
                                     </ul>
                                 </li>
                             }
