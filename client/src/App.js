@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPageContainer';
 import SignupPage from './components/SignupPageContainer';
+import MemberNewsPage from './components/MemberNewsPage';
 import { authenticateUser } from './actions';
 import { IsEmpty } from './helpers';
 
@@ -34,6 +35,7 @@ class App extends Component {
                     <Switch>
                         <Route path="/login" component={LoginPage} />
                         <Route path="/signup" component={SignupPage} />
+                        <Route path="/member-news" component={MemberNewsPage} />
                         <Route path="/" component={HomePage} />
                     </Switch>
                 </div>
