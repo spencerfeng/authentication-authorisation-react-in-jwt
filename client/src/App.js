@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './components/NavbarContainer';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPageContainer';
 import SignupPage from './components/SignupPageContainer';
@@ -33,8 +33,20 @@ class App extends Component {
                 <Navbar />
                 <div className="container">
                     <Switch>
-                        <Route path="/login" component={LoginPage} />
-                        <Route path="/signup" component={SignupPage} />
+                        <Route path="/login" render={() => (
+                            ! IsEmpty(this.props.store.getState().cUser) ? (
+                                <Redirect to="/" />
+                            ) : (
+                                <LoginPage />
+                            )
+                        )} />
+                        <Route path="/signup" render={() => (
+                            ! IsEmpty(this.props.store.getState().cUser) ? (
+                                <Redirect to="/" />
+                            ) : (
+                                <SignupPage />
+                            )
+                        )} />
                         <Route path="/member-news" component={MemberNewsPage} />
                         <Route path="/" component={HomePage} />
                     </Switch>
