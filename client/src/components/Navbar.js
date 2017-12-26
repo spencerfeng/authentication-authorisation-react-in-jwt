@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
 
@@ -19,11 +20,11 @@ class Navbar extends Component {
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
-                            <li className="active"><a href="/">Home</a></li>
+                            <li className="active"><Link to='/'>Home</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="/signup">Signup</a></li>
+                            <li><Link to='/login'>Login</Link></li>
+                            <li><Link to='/signup'>Signup</Link></li>
                             <li className="dropdown">
                                 <a className="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     Hello, John Doe <span className="caret"></span>
