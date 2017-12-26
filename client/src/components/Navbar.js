@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { IsEmpty } from '../helpers';
+import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
     constructor(props) {
@@ -37,14 +38,14 @@ class Navbar extends Component {
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
-                            <li className="active"><a href="/">Home</a></li>
+                            <li className="active"><Link to='/'>Home</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             {IsEmpty(this.props.cUser) && 
-                                <li><a href="/login">Login</a></li>
+                                <li><Link to='/login'>Login</Link></li>
                             }
                             {IsEmpty(this.props.cUser) &&
-                                <li><a href="/signup">Signup</a></li>
+                                <li><Link to='/signup'>Signup</Link></li>
                             }
                             {!IsEmpty(this.props.cUser) &&
                                 <li className="dropdown">
@@ -52,7 +53,7 @@ class Navbar extends Component {
                                         Hello, {this.props.cUser.firstName} {this.props.cUser.lastName} <span className="caret"></span>
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <li><a href="/member-news">Member News</a></li>
+                                        <li><Link to='/member-news'>Member News</Link></li>
                                         <li><a href="#" onClick={this.logout}>Logout</a></li>
                                     </ul>
                                 </li>
