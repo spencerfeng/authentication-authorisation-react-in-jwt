@@ -8,3 +8,14 @@ export const cUser = (state, action) => {
     }
 
 }
+
+export const memberNews = (state, action) => {
+
+    switch (action.type) {
+        case 'SET_MEMBER_NEWS': 
+            return action.data;
+        default: 
+            return state || [];
+    }
+
+}

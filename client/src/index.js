@@ -15,7 +15,8 @@ const history = createHistory();
 
 // Create the store
 const store = createStore(combineReducers({
-    cUser: reducers.cUser
+    cUser: reducers.cUser,
+    memberNews: reducers.memberNews
 }),
 applyMiddleware(
     thunkMiddleware

@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
+import { IsEmpty } from '../helpers';
+import { memberNews } from '../reducers';
 
 class MemberNewsPage extends Component {
+
+    componentDidMount() {
+
+        // Get the token in localStorage,
+        // then dispatch the action to get the member only information.
+        const token = localStorage.getItem('token');
+
+        if (token !== null) {
+            this.props.retrieveMemberNews(token, this.props.history);
+        } else {
+            this.props.history.push('/');
+        }
+    
+    }
 
     render() {
 
@@ -12,13 +28,15 @@ class MemberNewsPage extends Component {
                     <div className="panel panel-info">
                         <div className="panel-heading">Member News</div>
                         <div className="panel-body">
-                            <ul>
-                                <li>Member news 1</li>
-                                <li>Member news 2</li>
-                                <li>Member news 3</li>
-                                <li>Member news 4</li>
-                                <li>Member news 5</li>                    
-                            </ul>
+                            { this.props.memberNews.length > 0 ?
+                                <ul>
+                                    {this.props.memberNews.map(function(newsItem, index) {
+                                        return <li key={index}>{newsItem.title}</li>;
+                                    })}
+                                </ul>
+                                :
+                                <div>Sorry, there are no news for members.</div>
+                            }
                         </div>
                     </div>
                 </div>

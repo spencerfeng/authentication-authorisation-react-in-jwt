@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPageContainer';
 import SignupPage from './components/SignupPageContainer';
-import MemberNewsPage from './components/MemberNewsPage';
+import MemberNewsPage from './components/MemberNewsPageContainer';
 import { authenticateUser } from './actions';
 import { IsEmpty } from './helpers';
 

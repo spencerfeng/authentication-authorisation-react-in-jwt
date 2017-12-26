@@ -112,3 +112,42 @@ export const authenticateUser = (token) => {
         });
     }
 };
+
+export const getMemberNews = (token, history) => {
+
+    return dispatch => {
+        fetch('http://localhost:3000/member-news', {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"  
+            },
+            body: `token=${token}`
+        })
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return Promise.resolve(response);
+            } else {
+                return Promise.reject(new Error(response.statusText));
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data.success === true) {
+                // Update the store state
+                dispatch(setMemberNews(data.data.news));
+            } else {
+                 // Redirect to home page
+                 history.push('/');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+};
+
+export const setMemberNews = (news) => ({ type: 'SET_MEMBER_NEWS', data: news });

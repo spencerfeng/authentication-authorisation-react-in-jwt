@@ -223,6 +223,76 @@ app.post('/authenticate', function(req, res, nex) {
 
 });
 
+// get member news
+app.post('/member-news', function(req, res, nex) {
+    
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    const token = req.body.token;
+
+    jwt.verify(token, process.env.JWT_KEY, function(err, payload) {
+
+        if (err) {
+            return res.status(403).json({
+                success: false,
+                message: err.message
+            });
+        }
+
+        const userId = payload.sub;
+        
+        User.findOne({
+            '_id': userId
+        }, function(err, user) {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    message: err.message
+                });
+            }
+    
+            if (user) {
+                return res.json({
+                    success: true,
+                    message: 'The user has access to member news',
+                    data: {
+                        news: 
+                            [
+                                {
+                                    title: 'member news 1 from the server',
+                                    body: 'body of member news 1 from the server',
+                                },
+                                {
+                                    title: 'member news 2 from the server',
+                                    body: 'body of member news 2 from the server',
+                                },
+                                {
+                                    title: 'member news 3 from the server',
+                                    body: 'body of member news 3 from the server',
+                                },
+                                {
+                                    title: 'member news 4 from the server',
+                                    body: 'body of member news 4 from the server',
+                                },
+                                {
+                                    title: 'member news 5 from the server',
+                                    body: 'body of member news 5 from the server',
+                                }
+                            ]
+                    }
+                });
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: 'The user does not have access to member news'
+                });
+            }
+        });
+
+    });
+
+});
+
 app.use('/', index);
 app.use('/users', users);
 

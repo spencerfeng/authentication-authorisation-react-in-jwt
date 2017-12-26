@@ -52,6 +52,7 @@ class Navbar extends Component {
                                         Hello, {this.props.cUser.firstName} {this.props.cUser.lastName} <span className="caret"></span>
                                     </a>
                                     <ul className="dropdown-menu">
+                                        <li><a href="/member-news">Member News</a></li>
                                         <li><a href="#" onClick={this.logout}>Logout</a></li>
                                     </ul>
                                 </li>
